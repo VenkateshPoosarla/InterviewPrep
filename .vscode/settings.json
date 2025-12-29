@@ -1,0 +1,8 @@
+{
+  // Ensure the Run button + Python extension use the conda env interpreter (not pyenv).
+  "python.defaultInterpreterPath": "/Users/venkateshpoosarla/miniconda3/envs/interviewprep/bin/python",
+
+  // When running/debugging, auto-activate the selected interpreter environment in the terminal.
+  "python.terminal.activateEnvironment": true
+}
+
