@@ -19,32 +19,31 @@ class Solution:
             return False
 
         rows, cols = len(board), len(board[0])
-
-        def dfs(r: int, c: int, i: int) -> bool:
-            if i == len(word):
-                return True
-            if r < 0 or r >= rows or c < 0 or c >= cols:
-                return False
-            if board[r][c] != word[i]:
-                return False
-
-            tmp = board[r][c]
-            board[r][c] = "#"  # mark visited
-            found = (
-                dfs(r + 1, c, i + 1)
-                or dfs(r - 1, c, i + 1)
-                or dfs(r, c + 1, i + 1)
-                or dfs(r, c - 1, i + 1)
-            )
-            board[r][c] = tmp
-            return found
-
+        
         for r in range(rows):
             for c in range(cols):
-                if board[r][c] == word[0] and dfs(r, c, 0):
+                if self.backtrack(board, word, r, c, 0):
                     return True
         return False
 
+    def backtrack(self, board: List[List[str]], word: str, r: int, c: int, i: int) -> bool:    
+        if i == len(word):
+            return True
+        if r < 0 or r >= len(board) or c < 0 or c >= len(board[0]):
+            return False
+        if board[r][c] != word[i]:
+            return False
+        
+        tmp = board[r][c]
+        board[r][c] = "#"  # mark visited
+        found = (
+            self.backtrack(board, word, r + 1, c, i + 1)
+            or self.backtrack(board, word, r - 1, c, i + 1)
+            or self.backtrack(board, word, r, c + 1, i + 1)
+            or self.backtrack(board, word, r, c - 1, i + 1)
+        )
+        board[r][c] = tmp  # restore
+        return found    
 
 def run_tests() -> None:
     sol = Solution()

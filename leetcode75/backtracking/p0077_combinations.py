@@ -13,29 +13,21 @@ from typing import List
 
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
-        out: List[List[int]] = []
+        self.out: List[List[int]] = []
+        self.n = n
+        self.k = k
         path: list[int] = []
-
-        def backtrack(start: int) -> None:
-            if len(path) == k:
-                out.append(path[:])
-                return
-
-            # Choose next number i. Need (k-len(path)) numbers total.
-            need = k - len(path)
-            # Last possible start that still leaves enough numbers:
-            # i can go up to n - need + 1
-            for i in range(start, n - need + 2):
-                path.append(i)
-                backtrack(i + 1)
-                path.pop()
-
-        if k == 0:
-            return [[]]
-        if k > n:
-            return []
-        backtrack(1)
-        return out
+        self.backtrack(1, path)
+        return self.out    
+        
+    def backtrack(self, start: int, path: list[int]) -> None:
+        if len(path) == self.k:
+            self.out.append(path[:])
+            return
+        for i in range(start, self.n + 1):
+            path.append(i)
+            self.backtrack(i + 1, path)
+            path.pop()
 
 
 def run_tests() -> None:
