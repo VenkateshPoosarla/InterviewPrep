@@ -113,16 +113,16 @@ python demo_pipeline.py  # ✅ Just ran successfully!
 
 | Topic | Coverage | File Location |
 |-------|----------|---------------|
-| **Why two-tower architecture?** | ✅ Full explanation + code | `embedding_models.py:91-151` |
-| **Handling cold start** | ✅ Multiple strategies | `INTERVIEW_GUIDE.md:484` |
-| **Feature engineering for mixed types** | ✅ Categorical, numerical, text | `feature_pipeline.py:1-400` |
-| **LightGBM vs Neural Networks** | ✅ Trade-off analysis | `INTERVIEW_GUIDE.md:375-410` |
-| **Scalability to billions** | ✅ Architecture + code | `INTERVIEW_GUIDE.md:610-665` |
-| **Embedding dimensionality** | ✅ Formula + reasoning | `INTERVIEW_GUIDE.md:233-252` |
-| **Online/offline consistency** | ✅ Feature store pattern | `INTERVIEW_GUIDE.md:440-483` |
-| **Data drift detection** | ✅ PSI, Chi-square, KL div | `monitoring.py:35-92` |
-| **A/B testing** | ✅ Statistical framework | `monitoring.py:146-228` |
-| **Diversity in recommendations** | ✅ MMR, DPP, sliding window | `INTERVIEW_GUIDE.md:543-585` |
+| **Why two-tower architecture?** | ✅ Full explanation + code | `src/embeddings/embedding_models.py` |
+| **Handling cold start** | ✅ Multiple strategies | `INTERVIEW_GUIDE.md` (line 350+) |
+| **Feature engineering for mixed types** | ✅ Categorical, numerical, text | `src/feature_engineering/feature_pipeline.py` |
+| **LightGBM vs Neural Networks** | ✅ Trade-off analysis | `INTERVIEW_GUIDE.md` (line 195+) |
+| **Scalability to billions** | ✅ Architecture + code | `INTERVIEW_GUIDE.md` (line 461+) |
+| **Embedding dimensionality** | ✅ Formula + reasoning | `INTERVIEW_GUIDE.md` (line 82+) |
+| **Online/offline consistency** | ✅ Feature store pattern | `INTERVIEW_GUIDE.md` (line 223+) |
+| **Data drift detection** | ✅ PSI, Chi-square, KL div | `src/monitoring/monitoring.py` |
+| **A/B testing** | ✅ Statistical framework | `src/monitoring/monitoring.py` |
+| **Diversity in recommendations** | ✅ MMR, DPP, sliding window | `INTERVIEW_GUIDE.md` (line 387+) |
 
 ---
 
@@ -140,7 +140,7 @@ Stage 2 (Precise): LightGBM ranking → 500 items in 10ms
 Total: < 50ms ✅
 ```
 
-**Code:** `recommendation_service.py:300-350`
+**Code:** `src/serving/recommendation_service.py`
 
 ### 2. **LightGBM for Ranking (Not Neural Network)**
 
@@ -154,7 +154,7 @@ Total: < 50ms ✅
 - Interpretable (feature importance)
 - Robust (no normalization needed)
 
-**Code:** `ranking_model.py:50-120`
+**Code:** `src/models/ranking_model.py`
 
 ### 3. **Time-Based Train/Test Split**
 
@@ -162,7 +162,7 @@ Total: < 50ms ✅
 - ❌ Random: Data leakage (using future to predict past)
 - ✅ Time-based: Realistic (predict future from past)
 
-**Code:** `data_loader.py:185-215`
+**Code:** `src/data_pipeline/data_loader.py`
 
 ### 4. **Embedding Dim = 128**
 
@@ -175,7 +175,7 @@ For 1M items: `4 * ⁴√(1,000,000) ≈ 126`
 - Too high (512) → Slow, overfitting
 - Sweet spot (128) → Balance
 
-**Code:** `embedding_models.py:35`
+**Code:** `src/embeddings/embedding_models.py`
 
 ---
 
@@ -184,17 +184,17 @@ For 1M items: `4 * ⁴√(1,000,000) ≈ 126`
 ### Behavioral Questions
 
 **Prepared Examples in INTERVIEW_GUIDE.md:**
-1. "Tell me about a significant technical decision" (Line 676)
-2. "Handling disagreement with stakeholders" (Line 708)
-3. "Scaling to billions of users" (Line 610)
+1. "Tell me about a significant technical decision" (Line 510+)
+2. "Handling disagreement with stakeholders" (Line 537+)
+3. "Scaling to billions of users" (Line 461+)
 
 ### System Design Questions
 
 **Full Walkthrough:**
-- Requirements clarification (Line 14)
-- Architecture design (Line 24)
-- Scalability (Line 57)
-- Trade-offs (Line 350)
+- Requirements clarification
+- Architecture design
+- Scalability
+- Trade-offs
 
 ### Technical Depth
 
@@ -229,7 +229,7 @@ For 1M items: `4 * ⁴√(1,000,000) ≈ 126`
 - Model training loop
 - Serving infrastructure
 
-**Template in:** `README.md:10-40`
+**Template in:** `README.md`
 
 ### 3. **Prepare Talking Points**
 
@@ -242,12 +242,12 @@ For each component, be ready to discuss:
 ### 4. **Common Interview Questions**
 
 ✅ All answered in `INTERVIEW_GUIDE.md`:
-- "Design a recommendation system" (Line 14)
-- "How do you handle cold start?" (Line 484)
-- "How do you ensure diversity?" (Line 543)
-- "How do you detect data drift?" (Line 505)
-- "LightGBM vs Neural Networks?" (Line 375)
-- "How do you scale to billions?" (Line 610)
+- "Design a recommendation system"
+- "How do you handle cold start?"
+- "How do you ensure diversity?"
+- "How do you detect data drift?"
+- "LightGBM vs Neural Networks?"
+- "How do you scale to billions?"
 
 ---
 
