@@ -1,0 +1,144 @@
+# Propensity Model Configuration
+
+# Data Configuration
+data:
+  raw_data_path: "data/raw/customer_data.parquet"
+  processed_data_path: "data/processed/customer_features.parquet"
+  target_column: "converted"
+
+  # Train/Test Split
+  test_size: 0.2
+  val_size: 0.1
+  random_state: 42
+  stratify: true
+
+# Feature Engineering
+features:
+  # RFM weights
+  rfm_weights:
+    recency: 0.4
+    frequency: 0.3
+    monetary: 0.3
+
+  # Engagement weights
+  engagement_weights:
+    email: 0.4
+    web: 0.4
+    mobile: 0.1
+    social: 0.1
+
+  # Scaling
+  scale_features: true
+  scaler_type: "standard"  # standard, minmax, robust
+
+# Model: Logistic Regression
+logistic_regression:
+  max_iter: 1000
+  class_weight: "balanced"
+  solver: "lbfgs"
+  random_state: 42
+  regularization:
+    penalty: "l2"
+    C: 1.0
+
+# Model: LightGBM
+lightgbm:
+  objective: "binary"
+  metric: "auc"
+  boosting_type: "gbdt"
+  num_leaves: 31
+  max_depth: 6
+  learning_rate: 0.05
+  n_estimators: 1000
+
+  # Regularization
+  feature_fraction: 0.8
+  bagging_fraction: 0.8
+  bagging_freq: 5
+  min_data_in_leaf: 100
+  lambda_l1: 0.0
+  lambda_l2: 0.0
+
+  # Training
+  early_stopping_rounds: 50
+  verbose: -1
+  random_state: 42
+
+# Model: Neural Network
+neural_network:
+  architecture:
+    hidden_dims: [128, 64, 32]
+    dropout: 0.3
+    batch_norm: true
+
+  training:
+    epochs: 50
+    batch_size: 256
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "bce"
+
+  early_stopping:
+    patience: 10
+    min_delta: 0.0001
+
+# Model Selection
+model_selection:
+  primary_metric: "auc"
+  secondary_metrics:
+    - "precision"
+    - "recall"
+    - "f1"
+
+  # Threshold optimization
+  optimize_threshold: true
+  threshold_metric: "f1"  # precision, recall, f1
+
+# Evaluation
+evaluation:
+  metrics:
+    - "auc"
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+
+  # Calibration
+  calibration:
+    enabled: true
+    method: "isotonic"  # isotonic, sigmoid
+
+  # Visualization
+  plots:
+    - "roc_curve"
+    - "precision_recall_curve"
+    - "confusion_matrix"
+    - "feature_importance"
+    - "calibration_curve"
+
+# Model Persistence
+persistence:
+  model_dir: "models"
+  save_format:
+    lightgbm: "txt"
+    logistic_regression: "pkl"
+    neural_network: "pth"
+
+  versioning:
+    enabled: true
+    include_timestamp: true
+    include_metrics: true
+
+# Explainability
+explainability:
+  enabled: true
+  methods:
+    - "shap"
+    - "feature_importance"
+    - "partial_dependence"
+
+  shap:
+    sample_size: 1000
+    max_display: 20
+
+  plots_dir: "plots"

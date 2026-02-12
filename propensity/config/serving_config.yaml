@@ -1,0 +1,106 @@
+# Prediction Service Configuration
+
+# API Server
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  reload: false
+  log_level: "info"
+
+# Model Loading
+model:
+  model_dir: "models"
+  model_type: "lightgbm"  # lightgbm, logistic_regression, neural_network
+  auto_reload: false
+  reload_interval_minutes: 60
+
+# Prediction Settings
+prediction:
+  # Thresholds for risk categories
+  thresholds:
+    high: 0.7
+    medium: 0.4
+    low: 0.0
+
+  # Batch prediction limits
+  batch:
+    max_size: 10000
+    chunk_size: 1000
+    timeout_seconds: 300
+
+  # Caching
+  cache:
+    enabled: true
+    ttl_seconds: 3600
+    max_size: 10000
+
+# Input Validation
+validation:
+  strict_mode: true
+  required_fields:
+    - customer_id
+    - age
+    - tenure_months
+    - total_purchases
+    - email_open_rate
+    - website_visits_30d
+
+  # Value ranges
+  ranges:
+    age: [18, 100]
+    tenure_months: [0, 120]
+    total_purchases: [0, 10000]
+    avg_order_value: [0, 100000]
+    email_open_rate: [0, 1]
+    email_click_rate: [0, 1]
+
+# Monitoring
+monitoring:
+  enabled: true
+
+  # Metrics
+  metrics:
+    - "request_count"
+    - "prediction_latency"
+    - "error_rate"
+    - "score_distribution"
+
+  # Prometheus
+  prometheus:
+    enabled: true
+    port: 9090
+    path: "/metrics"
+
+  # Logging
+  logging:
+    level: "INFO"
+    format: "json"
+    file: "logs/prediction_service.log"
+    rotation: "daily"
+    retention_days: 30
+
+# Rate Limiting
+rate_limiting:
+  enabled: true
+  requests_per_minute: 1000
+  burst_size: 100
+
+# Health Checks
+health:
+  endpoint: "/"
+  check_interval_seconds: 30
+  startup_grace_period_seconds: 60
+
+# CORS
+cors:
+  enabled: true
+  allow_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+  allow_methods:
+    - "GET"
+    - "POST"
+  allow_headers:
+    - "Content-Type"
+    - "Authorization"
